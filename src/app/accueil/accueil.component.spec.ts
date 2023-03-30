@@ -11,13 +11,15 @@ describe('AccueilComponent', () => {
       declarations: [ AccueilComponent ]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(AccueilComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    beforeEach(() => {
+      fixture = TestBed.createComponent(AccueilComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+    
+   it('should create', () => {
+     expect(component).toBeTruthy();
+   });
 });
