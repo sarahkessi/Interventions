@@ -34,6 +34,7 @@ export class ProblemeComponent implements OnInit {
           Validators.required,
         ],
       ],
+      pasnotification:[''],
       noTypeProbleme: ['', [Validators.required]],
       notification:['pasnotification'],
       courrielGroup: this.FormGroup.group({
@@ -41,6 +42,9 @@ export class ProblemeComponent implements OnInit {
         courrielConfirmation: [{ value: '', disabled: true }],
       }),
       telephone: [{ value: '', disabled: true }],
+      descriptionProbleme:['', [Validators.required, Validators.minLength(5)]],
+      noUnite:'',
+      dateProbleme:{value:Date(), disabled:true}
     });
 
     this.typeproblemeService.obtenirTypesProbleme().subscribe(
