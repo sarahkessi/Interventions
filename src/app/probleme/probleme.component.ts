@@ -35,6 +35,7 @@ export class ProblemeComponent implements OnInit {
         ],
       ],
       noTypeProbleme: ['', [Validators.required]],
+      notification:['pasnotification'],
       courrielGroup: this.FormGroup.group({
         courriel: [{ value: '', disabled: true }],
         courrielConfirmation: [{ value: '', disabled: true }],
@@ -46,6 +47,9 @@ export class ProblemeComponent implements OnInit {
       (typesProbleme) => (this.typesProbleme = typesProbleme),
       (error) => (this.errorMessage = <any>error)
     );
+
+    this.problemeForm.get('notification').valueChanges
+    .subscribe(value => this.setNotification(value))
   }
 
   save(): void {}
@@ -83,6 +87,9 @@ export class ProblemeComponent implements OnInit {
       ]);
       courrielControl.enable();
       courrielConfirmationControl.enable();
+      telephoneControl.reset();
+      telephoneControl.disable();
+      
     } else {
       if (notifyVia === 'messageTexte') {
         telephoneControl.setValidators([
@@ -91,11 +98,25 @@ export class ProblemeComponent implements OnInit {
           Validators.maxLength(10),
           Validators.pattern('[0-9]+'),
         ]);
+
         telephoneControl.enable();
+        courrielGroupControl.disable();
+        courrielControl.disable();
+        courrielConfirmationControl.disable();
+        
+
+      } else {
+        if (notifyVia === 'pasnotification') {
+          courrielControl.disable();
+          courrielConfirmationControl.disable();
+          telephoneControl.disable();
+        }
       }
       courrielControl.updateValueAndValidity();
       courrielConfirmationControl.updateValueAndValidity();
       telephoneControl.updateValueAndValidity();
     }
   }
+
+
 }

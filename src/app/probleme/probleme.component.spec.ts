@@ -90,13 +90,13 @@ describe('ProblemeComponent', () => {
   it('#19 | Zone TELEPHONE est désactivée quand notifier par courriel', () => {
     component.setNotification('courriel');
     let zone = component.problemeForm.get('telephone');
-    expect(zone.status).toEqual('DISABLED'); 
+    expect(zone.disabled).toBeTrue();
   });
 
   it('#20 | Zone ADRESSE COURRIEL est activée quand notifier par courriel', () => {
     component.setNotification('courriel');
     let zone = component.problemeForm.get('courrielGroup.courriel');
-    expect(zone.status).toEqual('INVALID'); 
+    expect(zone.invalid).toBeTrue();
   });
 
   it('#21 | Zone CONFIRMER COURRIEL est activée quand notifier par courriel', () => {
@@ -148,11 +148,11 @@ describe('ProblemeComponent', () => {
     courriel.setValue("sarahkessi@gmail.com")
     emailConfirm.setValue("sarah@gmail.com")
 
-    let groupe= component.problemeForm.get('courrielGroup');
+    let groupe = component.problemeForm.get('courrielGroup');
     expect(groupe.valid).toBeFalse(); 
   });
 
-  it('#27 | Zone ADRESSE COURRIEL et CONFIRMER COURRIEL sont valides si les valeurs sont identiques quand notifier par courriel', () => {
+  it('#28 | Zone ADRESSE COURRIEL et CONFIRMER COURRIEL sont valides si les valeurs sont identiques quand notifier par courriel', () => {
     component.setNotification('courriel');
     let courriel = component.problemeForm.get('courrielGroup.courriel');
     let emailConfirm = component.problemeForm.get('courrielGroup.courrielConfirmation');
@@ -160,8 +160,60 @@ describe('ProblemeComponent', () => {
     courriel.setValue("sarahkessi@gmail.com")
     emailConfirm.setValue("sarahkessi@gmail.com")
 
-    let groupe= component.problemeForm.get('courrielGroup');
+    let groupe = component.problemeForm.get('courrielGroup');
     expect(groupe.valid).toBeTrue(); 
+  });
+
+  it('#29 | Zone TELEPHONE est activée quand notifier par messagerie texte', () => {
+    component.setNotification('messageTexte');
+    let zone = component.problemeForm.get('telephone');
+    expect(zone.status).toEqual('INVALID'); 
+  });
+
+  it('#30 | Zone ADRESSE COURRIEL est désactivée quand notifier par messagerie texte', () => {
+    component.setNotification('messageTexte');
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+    expect(zone.status).toEqual('DISABLED'); 
+  });
+
+  it('#31 | Zone CONFIRMER COURRIEL est désactivée quand notifier par messagerie texte', () => {
+    component.setNotification('messageTexte');
+    let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
+    expect(zone.status).toEqual('DISABLED'); 
+  });
+
+  it('#32 | Zone TELEPHONE est invalide sans valeur quand notifier par messagerie texte', () => {
+    component.setNotification('messageTexte');
+    let zone = component.problemeForm.get('telephone');
+    expect(zone.valid).toBeFalse();
+  });
+
+  it('#33 | Zone TELEPHONE est invalide avec des caractères non-numériques quand notifier par messagerie texte', () => {
+    component.setNotification('messageTexte');
+    let zone = component.problemeForm.get('telephone');
+    zone.setValue("aaaaa");
+    expect(zone.valid).toBeFalse();
+  });
+
+  it('#34 | Zone TELEPHONE est invalide avec 9 chiffres consécutifs quand notifier par messagerie texte', () => {
+    component.setNotification('messageTexte');
+    let zone = component.problemeForm.get('telephone');
+    zone.setValue("123456789");
+    expect(zone.valid).toBeFalse();
+  });
+
+  it('#35 | Zone TELEPHONE est invalide avec 11 chiffres consécutifs quand notifier par messagerie texte', () => {
+    component.setNotification('messageTexte');
+    let zone = component.problemeForm.get('telephone');
+    zone.setValue("12345678901");
+    expect(zone.valid).toBeFalse();
+  });
+
+  it('#36 | Zone TELEPHONE est valide avec 10 chiffres consécutifs quand notifier par messagerie texte', () => {
+    component.setNotification('messageTexte');
+    let zone = component.problemeForm.get('telephone');
+    zone.setValue("1234567890");
+    expect(zone.valid).toBeTrue();
   });
 
 });
